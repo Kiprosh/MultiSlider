@@ -134,6 +134,17 @@ extension MultiSlider {
             outerTrackView(constraining: .bottom(in: orientation), to: lastThumb),
         ]
     }
+    
+    open func updateOuterTrackViews(_ index: Int) {
+        outerTrackViews.removeViewsStartingAt(0)
+        outerTrackViews.removeAll()
+        guard nil != outerTrackColor && thumbViews.indices.contains(index) else { return }
+        guard let firstThumb = thumbViews.first else { return }
+        outerTrackViews = [
+            outerTrackView(constraining: .top(in: orientation), to: firstThumb),
+            outerTrackView(constraining: .bottom(in: orientation), to: thumbViews[index]),
+        ]
+    }
 
     private func outerTrackView(constraining: NSLayoutConstraint.Attribute, to thumbView: UIView) -> UIView {
         let view = UIView()
@@ -188,6 +199,27 @@ extension MultiSlider {
         valueLabels.append(valueLabel)
         updateValueLabel(i)
     }
+    
+    open func addValueLabel(_ i: Int, textField: UITextField, position: NSLayoutConstraint.Attribute = .top, height: CGFloat = 30) {
+        valueLabels[i].removeFromSuperview()
+        let valueLabel = textField
+        valueLabel.borderStyle = .none
+        slideView.addConstrainedSubview(valueLabel)
+        valueLabel.font = UIFont.preferredFont(forTextStyle: .footnote)
+        if #available(iOS 10.0, *) {
+            valueLabel.adjustsFontForContentSizeCategory = true
+        }
+        let thumbView = thumbViews[i]
+        slideView.constrain(valueLabel, at: position.perpendicularCenter, to: thumbView)
+        slideView.constrain(
+            valueLabel, at: position.opposite,
+            to: thumbView, at: position,
+            diff: -position.inwardSign * thumbView.diagonalSize / 4
+        )
+        valueLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
+        valueLabels.insert(valueLabel, at: i)
+    }
+    
 
     func updateValueLabel(_ i: Int) {
         let labelValue: CGFloat
