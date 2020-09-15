@@ -215,7 +215,7 @@ extension MultiSlider {
             valueLabel, at: valueLabelPosition.opposite,
             to: thumbView, at: valueLabelPosition,
             diff: -valueLabelPosition.inwardSign * thumbView.diagonalSize / 4
-        )s
+        )
         valueLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
         valueLabels.insert(valueLabel, at: i)
     }
