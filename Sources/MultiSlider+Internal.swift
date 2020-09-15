@@ -200,7 +200,7 @@ extension MultiSlider {
         updateValueLabel(i)
     }
     
-    open func addValueLabel(_ i: Int, textField: UITextField, position: NSLayoutConstraint.Attribute = .top, height: CGFloat = 30) {
+    open func updateValueLabel(_ i: Int, textField: UITextField, position: NSLayoutConstraint.Attribute = .top, thumbHeight: CGFloat = 45) {
         valueLabels[i].removeFromSuperview()
         let valueLabel = textField
         valueLabel.borderStyle = .none
@@ -214,9 +214,9 @@ extension MultiSlider {
         slideView.constrain(
             valueLabel, at: position.opposite,
             to: thumbView, at: position,
-            diff: -position.inwardSign * thumbView.diagonalSize / 4
+            diff: -position.inwardSign * thumbHeight / 4
         )
-        valueLabel.heightAnchor.constraint(equalToConstant: height).isActive = true
+        valueLabel.heightAnchor.constraint(equalToConstant: 30).isActive = true
         valueLabels.insert(valueLabel, at: i)
     }
     
