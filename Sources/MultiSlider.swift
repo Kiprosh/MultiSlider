@@ -196,7 +196,7 @@ open class MultiSlider: UIControl {
     // MARK: - Internals
 
     let slideView = UIView()
-    let panGestureView = UIView()
+    public let panGestureView = UIView()
     let margin: CGFloat = 32
     var isSettingValue = false
     lazy var defaultThumbImage: UIImage? = .circle()
